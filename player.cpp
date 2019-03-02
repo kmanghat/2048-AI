@@ -138,15 +138,14 @@ int Player::findBestMove(Board board)
         if(newBoard.checkMove(moves[i]))
         {
             int newScore = 0;
-            newBoard.makeMove(moves[i]);
 
             //Run increased depth whenever time permits,
             //less tiles = less nodes to visit
-            if(getEmptyCells(board) <= EMPTY_THRESHHOLD)
+            if(getEmptyCells(newBoard) <= EMPTY_THRESHHOLD)
             {
                 newScore = bestScore(newBoard,MAX_RECURSION_DEPTH,false);
             }
-            else if(getDistinctCells(board) >= DISTINCT_THRESHHOLD)
+            else if(getDistinctCells(newBoard) >= DISTINCT_THRESHHOLD)
             {
                 newScore = bestScore(newBoard,MED_RECURSION_DEPTH,false);
             }
@@ -198,7 +197,7 @@ int Player::bestScore(Board board, int depth, bool isPlayer)
             Board newBoard = board;
             int newScore = 0;
             //Dont pursue dead paths
-            if(newBoard.makeMove(moves[i]))
+            if(newBoard.checkMove(moves[i]))
             {
                 newScore = bestScore(newBoard, depth-1, false);
                 score = max(newScore,score);
